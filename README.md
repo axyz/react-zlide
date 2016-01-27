@@ -36,11 +36,15 @@ Clone the repository then
 `$ npm install`
 
 use
+
 `$ make dist`
+
 to build
 
 and
+
 `make dev`
+
 to start a dev server on `localhost:8080`
 
 Warnings
