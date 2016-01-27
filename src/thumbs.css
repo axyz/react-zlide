@@ -1,0 +1,12 @@
+.zlide_thumbs {
+  display: flex;
+}
+
+.zlide_thumb {
+  display: block;
+}
+
+.zlide_thumb_img {
+  width: 100%;
+  height: auto;
+}

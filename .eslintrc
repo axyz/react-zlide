@@ -1,0 +1,40 @@
+{
+    "env": {
+        "es6": true
+    },
+    "ecmaFeatures": {
+        "modules": true,
+        "jsx": true
+    },
+    "rules": {
+        "brace-style": [2, "1tbs"],
+        "comma-style": [2, "last"],
+        "indent": [2, 4, { "SwitchCase": 1 }],
+        "no-constant-condition": 2,
+        "semi": [2, "always"],
+        "space-after-keywords": [2, "always"],
+        "space-before-blocks": [2, "always"],
+        "strict": [2, "never"],
+        "quotes": [2, "single"],
+        "react/self-closing-comp": 1,
+        "react/jsx-no-duplicate-props": 2,
+        "react/no-did-mount-set-state": 1,
+        "react/no-did-update-set-state": 1,
+        "react/jsx-uses-react": 1,
+        "react/jsx-uses-vars": 1,
+        "react/react-in-jsx-scope": 1
+    },
+    "plugins": [
+        "react"
+    ],
+    "globals": {
+        "__dirname": false,
+        "require": false,
+        "module": false,
+        "exports": false,
+        "window": false,
+        "document": false,
+        "it": false,
+        "describe": false
+    }
+}

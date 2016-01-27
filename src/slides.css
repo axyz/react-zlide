@@ -1,0 +1,13 @@
+.zlide_slides {
+    position: relative;
+    display: flex;
+}
+
+.zlide_slide {
+    display: block;
+}
+
+.zlide_slide_img {
+    width: 100%;
+    height: auto;
+}
