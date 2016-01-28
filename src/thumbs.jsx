@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 
 import './thumbs.css';
 
-export default class Thumbs extends React.Component {
-    handleMouseEnter(index) {
-        this.props.goToSlide(index);
+export default class Thumbs extends Component {
+    handleThumbClick(index) {
+        this.props.onThumbClick(index);
+    }
+
+    handleThumbOver(index) {
+        this.props.onThumbOver(index);
     }
 
     render() {
         const {
-            handleMouseEnter,
             thumbs,
             centerMode,
             visibleSlides
@@ -25,7 +28,8 @@ export default class Thumbs extends React.Component {
         const thumbnails = thumbs.map((thumb, index) =>
             <li className="zlide_thumb"
               key={'zlide-thumb-' + index}
-              onMouseEnter={() => this.handleMouseEnter(index)}>
+              onClick={() => this.handleThumbClick(index)}
+              onMouseEnter={() => this.handleThumbOver(index)}>
                 <img className="zlide_thumb_img" src={thumb} />
             </li>
         );
@@ -40,8 +44,9 @@ export default class Thumbs extends React.Component {
 }
 
 Thumbs.propTypes = {
-    goToSlide: React.PropTypes.func,
-    thumbs: React.PropTypes.arrayOf(React.PropTypes.string),
-    centerMode: React.PropTypes.bool,
-    visibleSlides: React.PropTypes.number
+    onThumbClick: PropTypes.func,
+    onThumbOver: PropTypes.func,
+    thumbs: PropTypes.arrayOf(PropTypes.string),
+    centerMode: PropTypes.bool,
+    visibleSlides: PropTypes.number
 };

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 
 import './slides.css';
 
-export default class Slides extends React.Component {
+export default class Slides extends Component {
+    handleSlideClick(index) {
+        this.props.onSlideClick(index);
+    }
+
     render() {
         const {
             visibleSlides,
@@ -20,7 +24,7 @@ export default class Slides extends React.Component {
             flex: `0 0 calc(100% / ${visibleSlides})`
         };
 
-        const images = this.props.images.map((image, index) => {
+        const images = this.props.slides.map((image, index) => {
             let slideClass = 'zlide_slide';
 
             // find out the slide at the border and add a fade modifier
@@ -33,7 +37,9 @@ export default class Slides extends React.Component {
             slideClass += index === currentSlide ? ' zlide_slide-current' : '';
 
             return(
-                <li className={slideClass} key={'carousel-slide-' + index}
+                <li className={slideClass}
+                  key={'carousel-slide-' + index}
+                  onClick={() => this.handleSlideClick(index)}
                   style={slideStyle}>
                     <img className="zlide_slide_img" src={image} />
                 </li>
@@ -50,7 +56,7 @@ export default class Slides extends React.Component {
 }
 
 Slides.propTypes = {
-    visibleSlides: React.PropTypes.number,
-    currentSlide: React.PropTypes.number,
-    centerMode: React.PropTypes.bool
+    visibleSlides: PropTypes.number,
+    currentSlide: PropTypes.number,
+    centerMode: PropTypes.bool
 };

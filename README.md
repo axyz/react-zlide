@@ -1,7 +1,7 @@
 react-zlide
 ===========
 
-Lightweight slider component for React.js
+Lightweight and stateless slider component for React.js
 
 Usage
 -----
@@ -9,6 +9,10 @@ Add `react-zlide` as a dependency
 `$ npm install --save react-zlide`
 
 then simply use the `Zlide` component
+
+Note that this is a stateless component, so updating the `currentSlide` should
+be handled in the model of your app (e.g. using redux or similar flux
+implementations)
 
 ```javascript
 import React from 'react';
@@ -26,7 +30,12 @@ ReactDOM.render(
     <Zlide
         slides={['path/to/img', 'path/to/img']}
         thumbs={['path/to/thumb', 'path/to/thumb']}
-        initialSlide={0} // *optional set the starting slide
+        currentSlide={0} // set the current slide (default 0)
+        onSlideClick={(i) => ...} // action to call when clicking on slide with index `i`
+        onThumbClick={(i) => ...} // action to call when clicking on thumb with index `i`
+        onThumbOver={(i) => ...} // action to call when mouse enters on thumb with index `i`
+        onNextClick={() => ...} // action to call when clicking on next button
+        onPrevClick={() => ...} // action to call when clicking on previous button
         visibleSlides={3} // *optional set how many slides to be shown at once (default 3)
         centerMode={true} // *optional enable centered mode (default true)
         step={1} // *optional how many items to slide when clicking next or prev (default 1)

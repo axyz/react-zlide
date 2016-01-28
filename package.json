@@ -1,7 +1,7 @@
 {
   "name": "react-zlide",
-  "version": "0.0.4",
-  "description": "Lightweight slider component for React.js",
+  "version": "0.1.0",
+  "description": "Lightweight and stateless slider component for React.js",
   "main": "dist/react-zlide.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

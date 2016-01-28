@@ -1,24 +1,24 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 
 import './controls.css';
 
-export default class Controls extends React.Component {
+export default class Controls extends Component {
     render() {
         const {
-            goPreviousSlide,
-            goNextSlide
+            onNextClick,
+            onPrevClick
         } = this.props;
 
         return(
             <div className="zlide_controls">
-                <a className="zlide_controls_prev" href="#" onClick={goPreviousSlide}></a>
-                <a className="zlide_controls_next" href="#" onClick={goNextSlide}></a>
+                <a className="zlide_controls_prev" href="#" onClick={onPrevClick}></a>
+                <a className="zlide_controls_next" href="#" onClick={onNextClick}></a>
             </div>
         );
     }
 }
 
 Controls.propTypes = {
-    goPreviousSlide: React.PropTypes.func,
-    goNextSlide: React.PropTypes.func
+    goPreviousSlide: PropTypes.func,
+    goNextSlide: PropTypes.func
 };

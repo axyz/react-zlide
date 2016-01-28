@@ -106,111 +106,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Zlide = function (_React$Component) {
-	    _inherits(Zlide, _React$Component);
+	var Zlide = function (_Component) {
+	    _inherits(Zlide, _Component);
 	
 	    function Zlide(props) {
 	        _classCallCheck(this, Zlide);
 	
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Zlide).call(this, props));
-	
-	        _this.state = {
-	            currentSlide: props.initialSlide
-	        };
-	        return _this;
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Zlide).call(this, props));
 	    }
 	
 	    _createClass(Zlide, [{
-	        key: 'goNextSlide',
-	        value: function goNextSlide() {
-	            var _props = this.props;
-	            var visibleSlides = _props.visibleSlides;
-	            var slides = _props.slides;
-	            var centerMode = _props.centerMode;
-	            var step = _props.step;
-	            var currentSlide = this.state.currentSlide;
-	
-	            var maximumIndex = centerMode ? slides.length - step : slides.length - visibleSlides + step;
-	
-	            if (currentSlide + step <= maximumIndex) {
-	                this.setState({
-	                    currentSlide: currentSlide + step
-	                });
-	            }
-	        }
-	    }, {
-	        key: 'goPreviousSlide',
-	        value: function goPreviousSlide() {
-	            if (this.state.currentSlide >= this.props.step) {
-	                this.setState({
-	                    currentSlide: this.state.currentSlide - this.props.step
-	                });
-	            }
-	        }
-	    }, {
-	        key: 'goToSlide',
-	        value: function goToSlide(index) {
-	            this.setState({
-	                currentSlide: index
-	            });
-	        }
-	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this2 = this;
-	
-	            var _props2 = this.props;
-	            var slides = _props2.slides;
-	            var thumbs = _props2.thumbs;
-	            var visibleSlides = _props2.visibleSlides;
-	            var centerMode = _props2.centerMode;
-	            var currentSlide = this.state.currentSlide;
+	            var _props = this.props;
+	            var onNextClick = _props.onNextClick;
+	            var onPrevClick = _props.onPrevClick;
 	
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'zlide' },
-	                _react2.default.createElement(_slides2.default, {
-	                    images: slides,
-	                    visibleSlides: visibleSlides,
-	                    currentSlide: currentSlide,
-	                    centerMode: centerMode
-	                }),
+	                _react2.default.createElement(_slides2.default, this.props),
 	                _react2.default.createElement(_controls2.default, {
-	                    goPreviousSlide: function goPreviousSlide() {
-	                        return _this2.goPreviousSlide();
-	                    },
-	                    goNextSlide: function goNextSlide() {
-	                        return _this2.goNextSlide();
-	                    }
+	                    onPrevClick: onPrevClick,
+	                    onNextClick: onNextClick
 	                }),
-	                _react2.default.createElement(_thumbs2.default, {
-	                    thumbs: thumbs,
-	                    visibleSlides: visibleSlides,
-	                    centerMode: centerMode,
-	                    goToSlide: function goToSlide(slide) {
-	                        return _this2.goToSlide(slide);
-	                    }
-	                })
+	                _react2.default.createElement(_thumbs2.default, this.props)
 	            );
 	        }
 	    }]);
 	
 	    return Zlide;
-	}(_react2.default.Component);
+	}(_react.Component);
 	
 	exports.default = Zlide;
 	
 	Zlide.propTypes = {
-	    initialSlide: _react2.default.PropTypes.number,
-	    visibleSlides: _react2.default.PropTypes.number,
-	    centerMode: _react2.default.PropTypes.bool,
-	    step: _react2.default.PropTypes.number,
-	    slides: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string),
-	    thumbs: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string)
+	    currentSlide: _react.PropTypes.number,
+	    visibleSlides: _react.PropTypes.number,
+	    centerMode: _react.PropTypes.bool,
+	    step: _react.PropTypes.number,
+	    slides: _react.PropTypes.arrayOf(_react.PropTypes.string),
+	    thumbs: _react.PropTypes.arrayOf(_react.PropTypes.string),
+	    onPrevClick: _react.PropTypes.func,
+	    onNextClick: _react.PropTypes.func,
+	    onThumbOver: _react.PropTypes.func,
+	    onThumbClick: _react.PropTypes.func
 	};
 	
 	Zlide.defaultProps = {
-	    initialSlide: 0,
+	    currentSlide: 0,
 	    visibleSlides: 3,
 	    centerMode: true,
 	    step: 1,
@@ -250,8 +194,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Slides = function (_React$Component) {
-	    _inherits(Slides, _React$Component);
+	var Slides = function (_Component) {
+	    _inherits(Slides, _Component);
 	
 	    function Slides() {
 	        _classCallCheck(this, Slides);
@@ -260,8 +204,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    _createClass(Slides, [{
+	        key: 'handleSlideClick',
+	        value: function handleSlideClick(index) {
+	            this.props.onSlideClick(index);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+	
 	            var _props = this.props;
 	            var visibleSlides = _props.visibleSlides;
 	            var currentSlide = _props.currentSlide;
@@ -277,7 +228,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                flex: '0 0 calc(100% / ' + visibleSlides + ')'
 	            };
 	
-	            var images = this.props.images.map(function (image, index) {
+	            var images = this.props.slides.map(function (image, index) {
 	                var slideClass = 'zlide_slide';
 	
 	                // find out the slide at the border and add a fade modifier
@@ -289,7 +240,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                return _react2.default.createElement(
 	                    'li',
-	                    { className: slideClass, key: 'carousel-slide-' + index,
+	                    { className: slideClass,
+	                        key: 'carousel-slide-' + index,
+	                        onClick: function onClick() {
+	                            return _this2.handleSlideClick(index);
+	                        },
 	                        style: slideStyle },
 	                    _react2.default.createElement('img', { className: 'zlide_slide_img', src: image })
 	                );
@@ -305,14 +260,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 	
 	    return Slides;
-	}(_react2.default.Component);
+	}(_react.Component);
 	
 	exports.default = Slides;
 	
 	Slides.propTypes = {
-	    visibleSlides: _react2.default.PropTypes.number,
-	    currentSlide: _react2.default.PropTypes.number,
-	    centerMode: _react2.default.PropTypes.bool
+	    visibleSlides: _react.PropTypes.number,
+	    currentSlide: _react.PropTypes.number,
+	    centerMode: _react.PropTypes.bool
 	};
 
 /***/ },
@@ -347,8 +302,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Controls = function (_React$Component) {
-	    _inherits(Controls, _React$Component);
+	var Controls = function (_Component) {
+	    _inherits(Controls, _Component);
 	
 	    function Controls() {
 	        _classCallCheck(this, Controls);
@@ -360,26 +315,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: 'render',
 	        value: function render() {
 	            var _props = this.props;
-	            var goPreviousSlide = _props.goPreviousSlide;
-	            var goNextSlide = _props.goNextSlide;
+	            var onNextClick = _props.onNextClick;
+	            var onPrevClick = _props.onPrevClick;
 	
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'zlide_controls' },
-	                _react2.default.createElement('a', { className: 'zlide_controls_prev', href: '#', onClick: goPreviousSlide }),
-	                _react2.default.createElement('a', { className: 'zlide_controls_next', href: '#', onClick: goNextSlide })
+	                _react2.default.createElement('a', { className: 'zlide_controls_prev', href: '#', onClick: onPrevClick }),
+	                _react2.default.createElement('a', { className: 'zlide_controls_next', href: '#', onClick: onNextClick })
 	            );
 	        }
 	    }]);
 	
 	    return Controls;
-	}(_react2.default.Component);
+	}(_react.Component);
 	
 	exports.default = Controls;
 	
 	Controls.propTypes = {
-	    goPreviousSlide: _react2.default.PropTypes.func,
-	    goNextSlide: _react2.default.PropTypes.func
+	    goPreviousSlide: _react.PropTypes.func,
+	    goNextSlide: _react.PropTypes.func
 	};
 
 /***/ },
@@ -414,8 +369,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Thumbs = function (_React$Component) {
-	    _inherits(Thumbs, _React$Component);
+	var Thumbs = function (_Component) {
+	    _inherits(Thumbs, _Component);
 	
 	    function Thumbs() {
 	        _classCallCheck(this, Thumbs);
@@ -424,9 +379,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    _createClass(Thumbs, [{
-	        key: 'handleMouseEnter',
-	        value: function handleMouseEnter(index) {
-	            this.props.goToSlide(index);
+	        key: 'handleThumbClick',
+	        value: function handleThumbClick(index) {
+	            this.props.onThumbClick(index);
+	        }
+	    }, {
+	        key: 'handleThumbOver',
+	        value: function handleThumbOver(index) {
+	            this.props.onThumbOver(index);
 	        }
 	    }, {
 	        key: 'render',
@@ -434,7 +394,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this2 = this;
 	
 	            var _props = this.props;
-	            var handleMouseEnter = _props.handleMouseEnter;
 	            var thumbs = _props.thumbs;
 	            var centerMode = _props.centerMode;
 	            var visibleSlides = _props.visibleSlides;
@@ -449,8 +408,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    'li',
 	                    { className: 'zlide_thumb',
 	                        key: 'zlide-thumb-' + index,
+	                        onClick: function onClick() {
+	                            return _this2.handleThumbClick(index);
+	                        },
 	                        onMouseEnter: function onMouseEnter() {
-	                            return _this2.handleMouseEnter(index);
+	                            return _this2.handleThumbOver(index);
 	                        } },
 	                    _react2.default.createElement('img', { className: 'zlide_thumb_img', src: thumb })
 	                );
@@ -466,15 +428,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 	
 	    return Thumbs;
-	}(_react2.default.Component);
+	}(_react.Component);
 	
 	exports.default = Thumbs;
 	
 	Thumbs.propTypes = {
-	    goToSlide: _react2.default.PropTypes.func,
-	    thumbs: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string),
-	    centerMode: _react2.default.PropTypes.bool,
-	    visibleSlides: _react2.default.PropTypes.number
+	    onThumbClick: _react.PropTypes.func,
+	    onThumbOver: _react.PropTypes.func,
+	    thumbs: _react.PropTypes.arrayOf(_react.PropTypes.string),
+	    centerMode: _react.PropTypes.bool,
+	    visibleSlides: _react.PropTypes.number
 	};
 
 /***/ },
