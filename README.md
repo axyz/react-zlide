@@ -16,6 +16,12 @@ import ReactDOM from 'react-dom';
 
 import Zlide from 'react-zlide';
 
+// postcss inlined style seems not to work on isomorphic apps due to the usage
+// of window global object that is not available on server side.
+// temporarily I'm extracting the css on a separate file, but I'm looking for
+// and open to suggestions for more elegant solutions.
+import 'react-zlide/dist/react-zlide.css' // needs webpack css loader
+
 ReactDOM.render(
     <Zlide
         slides={['path/to/img', 'path/to/img']}

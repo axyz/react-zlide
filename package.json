@@ -1,6 +1,6 @@
 {
   "name": "react-zlide",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Lightweight slider component for React.js",
   "main": "dist/react-zlide.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "eslint": "1.10.3",
     "eslint-loader": "1.2.1",
     "eslint-plugin-react": "3.16.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "postcss-bem-linter": "2.3.0",
     "postcss-calc": "5.2.0",
     "postcss-import": "7.1.3",

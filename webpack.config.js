@@ -1,5 +1,7 @@
 const ENVIRONMENT = process.env.NODE_ENV || 'production';
 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 const conf = {
     devtool: 'source-maps',
     entry: './index',
@@ -13,7 +15,7 @@ const conf = {
         loaders: [
             {
                 exclude: /node_modules/,
-                loader: 'style!css?sourceMap!postcss',
+                loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss'),
                 test: /\.css$/
             },
             {
@@ -39,7 +41,13 @@ const conf = {
         libraryTarget: 'umd',
         path: './dist/'
     },
-    plugins: [],
+    plugins: [
+        new ExtractTextPlugin(
+            'react-zlide.css', {
+                allChunks: true
+            }
+        )
+    ],
     postcss: require('./lib/postcss').processors
 };
 
