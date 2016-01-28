@@ -16,15 +16,32 @@
 
 .zlide_controls_prev {
     position: absolute;
-    height: 33%;
-    top: calc((100% - 33%) / 2);
-    width: 15%;
+    height: 50px;
+    top: calc((100% - 50px) / 2);
+    left: 8%;
+    width: 50px;
+}
+
+.zlide_controls_prev:before {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 100 100"><g transform="scale(0.5)"><path fill="#646464" d="M 50,0 L 55,5 L 10,50 L 55,95 L 50,100 L 0,50 Z" /></g></svg>');
 }
 
 .zlide_controls_next {
     position: absolute;
-    height: 33%;
-    top: calc((100% - 33%) / 2);
-    right: 0;
-    width: 15%;
+    height: 50px;
+    top: calc((100% - 50px) / 2);
+    right: 8%;
+    width: 50px;
+}
+
+.zlide_controls_next:before {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 100 100"><g transform="scale(0.5)"><path fill="#646464" d="M 50,0 L 45,5 L 90,50 L 45,95 L 50,100 L 100,50 Z" /></g></svg>');
 }
