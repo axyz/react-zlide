@@ -1,6 +1,6 @@
 {
   "name": "react-zlide",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Lightweight slider component for React.js",
   "main": "dist/react-zlide.js",
   "scripts": {
