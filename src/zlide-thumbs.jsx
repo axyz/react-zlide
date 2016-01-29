@@ -24,8 +24,13 @@ export default class ZlideThumbs extends Component {
             </li>
         );
 
+        const style = {
+            padding: 0,
+            margin: 0
+        };
+
         return(
-            <ul className={className}>
+            <ul className={className} style={style}>
                 {thumbnails}
             </ul>
         );

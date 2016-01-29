@@ -18,7 +18,9 @@ export default class Zlide extends Component {
         const style = {
             transform: `translate3d(calc((100% / ${visibleSlides}) * -1 * ${currentSlide - offset}), 0, 0)`,
             position: 'relative',
-            display: 'flex'
+            display: 'flex',
+            padding: 0,
+            margin: 0
         };
 
         const slideStyle = {

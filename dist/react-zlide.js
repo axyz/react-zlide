@@ -138,7 +138,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var style = {
 	                transform: 'translate3d(calc((100% / ' + visibleSlides + ') * -1 * ' + (currentSlide - offset) + '), 0, 0)',
 	                position: 'relative',
-	                display: 'flex'
+	                display: 'flex',
+	                padding: 0,
+	                margin: 0
 	            };
 	
 	            var slideStyle = {
@@ -392,9 +394,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	                );
 	            });
 	
+	            var style = {
+	                padding: 0,
+	                margin: 0
+	            };
+	
 	            return _react2.default.createElement(
 	                'ul',
-	                { className: className },
+	                { className: className, style: style },
 	                thumbnails
 	            );
 	        }
