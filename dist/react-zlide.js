@@ -132,8 +132,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var currentSlide = _props.currentSlide;
 	            var centerMode = _props.centerMode;
 	            var className = _props.className;
+	            var circular = _props.circular;
+	            var children = _props.children;
 	
-	            var offset = centerMode ? Math.floor(visibleSlides / 2) : 0;
+	            var sideSize = Math.floor(visibleSlides / 2);
+	            var offset = 0;
+	
+	            if (centerMode) {
+	                offset = sideSize;
+	
+	                if (circular) {
+	                    if (currentSlide < sideSize) {
+	                        offset = offset - sideSize;
+	                    } else if (currentSlide >= children.length - sideSize) {
+	                        offset = offset + sideSize;
+	                    }
+	                }
+	            }
 	
 	            var style = {
 	                transform: 'translate3d(calc((100% / ' + visibleSlides + ') * -1 * ' + (currentSlide - offset) + '), 0, 0)',
@@ -148,7 +163,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                display: 'block'
 	            };
 	
-	            var slides = this.props.children.map(function (slide, index) {
+	            var slides = children.map(function (slide, index) {
 	                var slideClass = 'zlide_slide';
 	
 	                slideClass += index === currentSlide ? ' zlide_slide-current' : '';
@@ -164,6 +179,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    slide
 	                );
 	            });
+	
+	            if (circular) {
+	                if (currentSlide < sideSize) {
+	                    for (var i = 0; i < sideSize; i++) {
+	                        slides.unshift(slides.pop());
+	                    }
+	                } else if (currentSlide >= sideSize) {
+	                    for (var i = 0; i < sideSize; i++) {
+	                        slides.push(slides.shift());
+	                    }
+	                }
+	            }
 	
 	            return _react2.default.createElement(
 	                'ul',
@@ -183,6 +210,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    visibleSlides: _react.PropTypes.number,
 	    currentSlide: _react.PropTypes.number,
 	    centerMode: _react.PropTypes.bool,
+	    circular: _react.PropTypes.bool,
 	    className: _react.PropTypes.string
 	};
 	
@@ -190,7 +218,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    visibleSlides: 3,
 	    currentSlide: 0,
 	    centerMode: true,
-	    className: 'zlide'
+	    className: 'zlide',
+	    circular: false
 	};
 
 /***/ },

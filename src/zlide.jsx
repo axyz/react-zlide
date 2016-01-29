@@ -10,10 +10,25 @@ export default class Zlide extends Component {
             visibleSlides,
             currentSlide,
             centerMode,
-            className
+            className,
+            circular,
+            children
         } = this.props;
 
-        const offset = centerMode ? Math.floor(visibleSlides / 2) : 0;
+        const sideSize = Math.floor(visibleSlides / 2);
+        let offset = 0;
+
+        if (centerMode) {
+            offset = sideSize;
+
+            if (circular) {
+                if (currentSlide < sideSize) {
+                    offset = offset - sideSize;
+                } else if (currentSlide >= children.length - sideSize) {
+                    offset = offset + sideSize;
+                }
+            }
+        }
 
         const style = {
             transform: `translate3d(calc((100% / ${visibleSlides}) * -1 * ${currentSlide - offset}), 0, 0)`,
@@ -28,7 +43,7 @@ export default class Zlide extends Component {
             display: 'block'
         };
 
-        const slides = this.props.children.map((slide, index) => {
+        let slides = children.map((slide, index) => {
             let slideClass = 'zlide_slide';
 
             slideClass += index === currentSlide ? ' zlide_slide-current' : '';
@@ -43,6 +58,19 @@ export default class Zlide extends Component {
             );
         });
 
+        if (circular) {
+            if (currentSlide < sideSize) {
+                for (let i = 0; i < sideSize; i++) {
+                    slides.unshift(slides.pop());
+                }
+            } else if (currentSlide >= sideSize) {
+                for (let i = 0; i < sideSize; i++) {
+                    slides.push(slides.shift());
+                }
+            }
+        }
+
+
         return (
             <ul className={className}
                 style={style}>
@@ -56,6 +84,7 @@ Zlide.propTypes = {
     visibleSlides: PropTypes.number,
     currentSlide: PropTypes.number,
     centerMode: PropTypes.bool,
+    circular: PropTypes.bool,
     className: PropTypes.string
 };
 
@@ -63,5 +92,6 @@ Zlide.defaultProps = {
     visibleSlides: 3,
     currentSlide: 0,
     centerMode: true,
-    className: 'zlide'
+    className: 'zlide',
+    circular: false
 };

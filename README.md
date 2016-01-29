@@ -31,7 +31,8 @@ ReactDOM.render(
         <Zlide
             currentSlide={0} // use your store to update it default to 0
             visibleSlides={3} // how many slides to show at once default to 3
-            centerMode={true} // default to true
+            centerMode // default to true
+            circular // infinite slideshow default to false
             onClick={(index) => console.log('slide click ' + index)}>
 
             ... // slides (e.g. <img> tags)
