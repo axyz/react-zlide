@@ -63,7 +63,7 @@ export default class Zlide extends Component {
                 for (let i = 0; i < sideSize; i++) {
                     slides.unshift(slides.pop());
                 }
-            } else if (currentSlide >= sideSize) {
+            } else if (currentSlide >= children.length - sideSize) {
                 for (let i = 0; i < sideSize; i++) {
                     slides.push(slides.shift());
                 }
