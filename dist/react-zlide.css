@@ -1,4 +1,4 @@
-.zlide_slides {
+.zlide {
     position: relative;
     display: -webkit-box;
     display: -webkit-flex;
@@ -31,17 +31,6 @@
 .zlide_thumb_img {
   width: 100%;
   height: auto;
-}
-.zlide * {
-    margin: 0;
-    padding: 0;
-}
-
-.zlide {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
 }
 
 /*# sourceMappingURL=react-zlide.css.map*/

@@ -1,53 +1,62 @@
 import React, {Component, PropTypes} from 'react';
 
-import Slides from './slides.jsx';
-import Controls from './controls.jsx';
-import Thumbs from './thumbs.jsx';
-
-import './zlide.css';
-
 export default class Zlide extends Component {
-    constructor(props) {
-        super(props);
+    handleClick(index) {
+        this.props.onClick(index);
     }
 
     render() {
         const {
-            onNextClick,
-            onPrevClick
+            visibleSlides,
+            currentSlide,
+            centerMode
         } = this.props;
 
+        const offset = centerMode ? Math.floor(visibleSlides / 2) : 0;
+
+        const style = {
+            transform: `translate3d(calc((100% / ${visibleSlides}) * -1 * ${currentSlide - offset}), 0, 0)`,
+            position: 'relative',
+            display: 'flex'
+        };
+
+        const slideStyle = {
+            flex: `0 0 calc(100% / ${visibleSlides})`,
+            display: 'block'
+        };
+
+        const slides = this.props.children.map((slide, index) => {
+            let slideClass = 'zlide_slide';
+
+            slideClass += index === currentSlide ? ' zlide_slide-current' : '';
+
+            return(
+                <li className={slideClass}
+                    key={'zlide-slide-' + index}
+                    onClick={() => this.handleClick(index)}
+                    style={slideStyle}>
+                    {slide}
+                </li>
+            );
+        });
+
         return (
-            <div className="zlide">
-                <Slides {...this.props} />
-                <Controls
-                  onPrevClick={onPrevClick}
-                  onNextClick={onNextClick}
-                />
-                <Thumbs {...this.props} />
-            </div>
+            <ul className="zlide"
+                style={style}>
+                {slides}
+            </ul>
         );
     }
 }
 
 Zlide.propTypes = {
-    currentSlide: PropTypes.number,
     visibleSlides: PropTypes.number,
-    centerMode: PropTypes.bool,
-    step: PropTypes.number,
-    slides: PropTypes.arrayOf(PropTypes.string),
-    thumbs: PropTypes.arrayOf(PropTypes.string),
-    onPrevClick: PropTypes.func,
-    onNextClick: PropTypes.func,
-    onThumbOver: PropTypes.func,
-    onThumbClick: PropTypes.func
+    currentSlide: PropTypes.number,
+    centerMode: PropTypes.bool
 };
 
 Zlide.defaultProps = {
-    currentSlide: 0,
     visibleSlides: 3,
-    centerMode: true,
-    step: 1,
-    slides: [],
-    thumbs: []
+    currentSlide: 0,
+    centerMode: true
 };

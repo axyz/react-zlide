@@ -1,5 +1,21 @@
-.zlide_slides {
+.zlide_thumbs {
+    display: flex;
+}
+
+.zlide_thumb {
+    display: block;
+}
+
+.zlide_thumb img {
+    width: 100%;
+}
+
+.zlide {
   transition: transform .2s ease-in-out;
+}
+
+.zlide_slide img {
+    width: 100%;
 }
 
 .zlide_controls {
