@@ -164,7 +164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            return _react2.default.createElement(
 	                'ul',
-	                { className: 'zlide',
+	                { className: this.props.className,
 	                    style: style },
 	                slides
 	            );

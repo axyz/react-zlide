@@ -9,7 +9,8 @@ export default class Zlide extends Component {
         const {
             visibleSlides,
             currentSlide,
-            centerMode
+            centerMode,
+            className
         } = this.props;
 
         const offset = centerMode ? Math.floor(visibleSlides / 2) : 0;
@@ -41,7 +42,7 @@ export default class Zlide extends Component {
         });
 
         return (
-            <ul className="zlide"
+            <ul className={className}
                 style={style}>
                 {slides}
             </ul>
@@ -52,11 +53,13 @@ export default class Zlide extends Component {
 Zlide.propTypes = {
     visibleSlides: PropTypes.number,
     currentSlide: PropTypes.number,
-    centerMode: PropTypes.bool
+    centerMode: PropTypes.bool,
+    className: PropTypes.string
 };
 
 Zlide.defaultProps = {
     visibleSlides: 3,
     currentSlide: 0,
-    centerMode: true
+    centerMode: true,
+    className: 'zlide'
 };

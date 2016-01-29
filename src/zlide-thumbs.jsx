@@ -11,7 +11,8 @@ export default class ZlideThumbs extends Component {
 
     render() {
         const {
-            children
+            children,
+            className
         } = this.props;
 
         const thumbnails = children.map((thumb, index) =>
@@ -24,7 +25,7 @@ export default class ZlideThumbs extends Component {
         );
 
         return(
-            <ul className="zlide_thumbs">
+            <ul className={className}>
                 {thumbnails}
             </ul>
         );
@@ -34,5 +35,9 @@ export default class ZlideThumbs extends Component {
 ZlideThumbs.propTypes = {
     onClick: PropTypes.func,
     onOver: PropTypes.func,
-    thumbs: PropTypes.arrayOf(PropTypes.string)
+    className: PropTypes.string
+};
+
+ZlideThumbs.defaultProps = {
+    className: 'zlide_thumbs'
 };

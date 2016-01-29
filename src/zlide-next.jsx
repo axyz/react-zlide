@@ -4,11 +4,12 @@ export default class ZlideNext extends Component {
     render() {
         const {
             onClick,
-            children
+            children,
+            className
         } = this.props;
 
         return(
-            <div className="zlide_next"
+            <div className={className}
                 onClick={onClick}>
                 {children}
             </div>
@@ -17,5 +18,10 @@ export default class ZlideNext extends Component {
 }
 
 ZlideNext.propTypes = {
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    className: PropTypes.string
+};
+
+ZlideNext.defaultProps = {
+    className: 'zlide_next'
 };
