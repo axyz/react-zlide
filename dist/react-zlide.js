@@ -185,7 +185,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    for (var i = 0; i < sideSize; i++) {
 	                        slides.unshift(slides.pop());
 	                    }
-	                } else if (currentSlide >= sideSize) {
+	                } else if (currentSlide >= children.length - sideSize) {
 	                    for (var i = 0; i < sideSize; i++) {
 	                        slides.push(slides.shift());
 	                    }
