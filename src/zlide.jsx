@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 
 export default class Zlide extends Component {
     handleClick(index) {
-        this.props.onClick(index);
+        this.props.onClick && this.props.onClick(index);
     }
 
     render() {

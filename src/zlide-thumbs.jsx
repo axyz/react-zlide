@@ -2,11 +2,11 @@ import React, {Component, PropTypes} from 'react';
 
 export default class ZlideThumbs extends Component {
     handleClick(index) {
-        this.props.onClick(index);
+        this.props.onClick && this.props.onClick(index);
     }
 
     handleOver(index) {
-        this.props.onOver(index);
+        this.props.onOver && this.props.onOver(index);
     }
 
     render() {
