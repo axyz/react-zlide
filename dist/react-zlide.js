@@ -148,6 +148,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        offset = offset + sideSize;
 	                    }
 	                }
+	            } else {
+	                if (circular) {
+	                    if (currentSlide >= children.length - visibleSlides - 1) {
+	                        offset = visibleSlides - (children.length - currentSlide);
+	                    }
+	                }
 	            }
 	
 	            var style = {
@@ -181,12 +187,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	
 	            if (circular) {
-	                if (currentSlide < sideSize) {
+	                if (centerMode && currentSlide < sideSize) {
 	                    for (var i = 0; i < sideSize; i++) {
 	                        slides.unshift(slides.pop());
 	                    }
-	                } else if (currentSlide >= children.length - sideSize) {
+	                } else if (centerMode && currentSlide >= children.length - sideSize) {
 	                    for (var i = 0; i < sideSize; i++) {
+	                        slides.push(slides.shift());
+	                    }
+	                } else if (!centerMode && currentSlide >= children.length - visibleSlides - 1) {
+	                    var rightLimit = visibleSlides - (children.length - currentSlide);
+	                    for (var i = 0; i < rightLimit; i++) {
 	                        slides.push(slides.shift());
 	                    }
 	                }

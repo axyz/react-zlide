@@ -8,6 +8,7 @@ ReactDOM.render(
         <Zlide
             currentSlide={0}
             visibleSlides={3}
+            centerMode
             circular
             onClick={(index) => console.log('slide click ' + index)}>
             <img src="https://secure-i2.ztat.net//detail/NL/02/2H/00/QN/11/NL022H00Q-N11@16.jpg" />

@@ -28,6 +28,12 @@ export default class Zlide extends Component {
                     offset = offset + sideSize;
                 }
             }
+        } else {
+            if (circular) {
+                if (currentSlide >= children.length - visibleSlides - 1) {
+                    offset = visibleSlides - (children.length - currentSlide);
+                }
+            }
         }
 
         const style = {
@@ -59,12 +65,17 @@ export default class Zlide extends Component {
         });
 
         if (circular) {
-            if (currentSlide < sideSize) {
+            if (centerMode && currentSlide < sideSize) {
                 for (let i = 0; i < sideSize; i++) {
                     slides.unshift(slides.pop());
                 }
-            } else if (currentSlide >= children.length - sideSize) {
+            } else if (centerMode && currentSlide >= children.length - sideSize) {
                 for (let i = 0; i < sideSize; i++) {
+                    slides.push(slides.shift());
+                }
+            } else if (!centerMode && currentSlide >= children.length - visibleSlides - 1) {
+                const rightLimit = visibleSlides - (children.length - currentSlide);
+                for (let i = 0; i < rightLimit; i++) {
                     slides.push(slides.shift());
                 }
             }
