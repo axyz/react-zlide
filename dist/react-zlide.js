@@ -120,7 +120,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(Zlide, [{
 	        key: 'handleClick',
 	        value: function handleClick(index) {
-	            this.props.onClick(index);
+	            this.props.onClick && this.props.onClick(index);
 	        }
 	    }, {
 	        key: 'render',
@@ -131,6 +131,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var visibleSlides = _props.visibleSlides;
 	            var currentSlide = _props.currentSlide;
 	            var centerMode = _props.centerMode;
+	            var className = _props.className;
 	
 	            var offset = centerMode ? Math.floor(visibleSlides / 2) : 0;
 	
@@ -164,7 +165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            return _react2.default.createElement(
 	                'ul',
-	                { className: this.props.className,
+	                { className: className,
 	                    style: style },
 	                slides
 	            );
@@ -179,13 +180,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	Zlide.propTypes = {
 	    visibleSlides: _react.PropTypes.number,
 	    currentSlide: _react.PropTypes.number,
-	    centerMode: _react.PropTypes.bool
+	    centerMode: _react.PropTypes.bool,
+	    className: _react.PropTypes.string
 	};
 	
 	Zlide.defaultProps = {
 	    visibleSlides: 3,
 	    currentSlide: 0,
-	    centerMode: true
+	    centerMode: true,
+	    className: 'zlide'
 	};
 
 /***/ },
@@ -198,7 +201,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -228,15 +231,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    _createClass(ZlidePrev, [{
-	        key: "render",
+	        key: 'render',
 	        value: function render() {
 	            var _props = this.props;
 	            var onClick = _props.onClick;
 	            var children = _props.children;
+	            var className = _props.className;
 	
 	            return _react2.default.createElement(
-	                "div",
-	                { className: "zlide_prev",
+	                'div',
+	                { className: className,
 	                    onClick: onClick },
 	                children
 	            );
@@ -249,14 +253,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = ZlidePrev;
 	
 	ZlidePrev.propTypes = {
-	    onClick: _react.PropTypes.func
+	    onClick: _react.PropTypes.func,
+	    className: _react.PropTypes.string
+	};
+	
+	ZlidePrev.defaultProps = {
+	    className: 'zlide_prev'
 	};
 
 /***/ },
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -286,15 +295,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    _createClass(ZlideNext, [{
-	        key: "render",
+	        key: 'render',
 	        value: function render() {
 	            var _props = this.props;
 	            var onClick = _props.onClick;
 	            var children = _props.children;
+	            var className = _props.className;
 	
 	            return _react2.default.createElement(
-	                "div",
-	                { className: "zlide_next",
+	                'div',
+	                { className: className,
 	                    onClick: onClick },
 	                children
 	            );
@@ -307,7 +317,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = ZlideNext;
 	
 	ZlideNext.propTypes = {
-	    onClick: _react.PropTypes.func
+	    onClick: _react.PropTypes.func,
+	    className: _react.PropTypes.string
+	};
+	
+	ZlideNext.defaultProps = {
+	    className: 'zlide_next'
 	};
 
 /***/ },
@@ -346,19 +361,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(ZlideThumbs, [{
 	        key: 'handleClick',
 	        value: function handleClick(index) {
-	            this.props.onClick(index);
+	            this.props.onClick && this.props.onClick(index);
 	        }
 	    }, {
 	        key: 'handleOver',
 	        value: function handleOver(index) {
-	            this.props.onOver(index);
+	            this.props.onOver && this.props.onOver(index);
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var _this2 = this;
 	
-	            var children = this.props.children;
+	            var _props = this.props;
+	            var children = _props.children;
+	            var className = _props.className;
 	
 	            var thumbnails = children.map(function (thumb, index) {
 	                return _react2.default.createElement(
@@ -377,7 +394,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            return _react2.default.createElement(
 	                'ul',
-	                { className: 'zlide_thumbs' },
+	                { className: className },
 	                thumbnails
 	            );
 	        }
@@ -391,7 +408,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	ZlideThumbs.propTypes = {
 	    onClick: _react.PropTypes.func,
 	    onOver: _react.PropTypes.func,
-	    thumbs: _react.PropTypes.arrayOf(_react.PropTypes.string)
+	    className: _react.PropTypes.string
+	};
+	
+	ZlideThumbs.defaultProps = {
+	    className: 'zlide_thumbs'
 	};
 
 /***/ }
