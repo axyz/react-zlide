@@ -1,5 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 
+function _cycleInt(n, limit) {
+    return n % limit;
+}
+
 export default class Zlide extends Component {
     handleClick(index) {
         this.props.onClick && this.props.onClick(index);
@@ -11,48 +15,53 @@ export default class Zlide extends Component {
             currentSlide,
             centerMode,
             className,
+            easing,
+            slidingDuration,
             circular,
             children
         } = this.props;
 
         const sideSize = Math.floor(visibleSlides / 2);
-        let offset = 0;
-
-        if (centerMode) {
-            offset = sideSize;
-
-            if (circular) {
-                if (currentSlide < sideSize) {
-                    offset = offset - sideSize;
-                } else if (currentSlide >= children.length - sideSize) {
-                    offset = offset + sideSize;
-                }
-            }
-        } else {
-            if (circular) {
-                if (currentSlide >= children.length - visibleSlides - 1) {
-                    offset = visibleSlides - (children.length - currentSlide);
-                }
-            }
-        }
+        const offset = centerMode ? sideSize : 0;
+        const calcSlideWidth = `(100% / ${visibleSlides})`;
+        const pos = _cycleInt(currentSlide - offset, children.length);
+        const left = `calc((${calcSlideWidth} * ${currentSlide}) - ${calcSlideWidth})`;
 
         const style = {
-            transform: `translate3d(calc((100% / ${visibleSlides}) * -1 * ${currentSlide - offset}), 0, 0)`,
+            transform: `translate3d(calc(-1 * (${calcSlideWidth} * ${currentSlide})), 0, 0)`,
+            transition: `transform ${slidingDuration}s 0s ${easing}`,
+            left: left,
             position: 'relative',
             display: 'flex',
             padding: 0,
             margin: 0
         };
 
-        const slideStyle = {
-            flex: `0 0 calc(100% / ${visibleSlides})`,
-            display: 'block'
-        };
-
-        let slides = children.map((slide, index) => {
+        let slides = [children[children.length - 1], ...children].map((slide, index, slides) => {
             let slideClass = 'zlide_slide';
+            let order = pos;
 
-            slideClass += index === currentSlide ? ' zlide_slide-current' : '';
+            if (pos >= 0) {
+                if (index === pos) {
+                    order = 0;
+                } else if (index === 0) {
+                    order = children.length;
+                } else {
+                    order = _cycleInt(slides.length - pos + index, slides.length);
+                }
+            } else {
+                order = (index === 0) ? children.length : _cycleInt(index - pos, children.length);
+            }
+
+            const slideStyle = {
+                order: order,
+                flex: `0 0 calc${calcSlideWidth}`,
+                display: 'block'
+            };
+
+            slideClass += index === Math.abs(_cycleInt(currentSlide + offset, slides.length))
+                ? ' zlide_slide-current'
+                : '';
 
             return(
                 <li className={slideClass}
@@ -63,24 +72,6 @@ export default class Zlide extends Component {
                 </li>
             );
         });
-
-        if (circular) {
-            if (centerMode && currentSlide < sideSize) {
-                for (let i = 0; i < sideSize; i++) {
-                    slides.unshift(slides.pop());
-                }
-            } else if (centerMode && currentSlide >= children.length - sideSize) {
-                for (let i = 0; i < sideSize; i++) {
-                    slides.push(slides.shift());
-                }
-            } else if (!centerMode && currentSlide >= children.length - visibleSlides - 1) {
-                const rightLimit = visibleSlides - (children.length - currentSlide);
-                for (let i = 0; i < rightLimit; i++) {
-                    slides.push(slides.shift());
-                }
-            }
-        }
-
 
         return (
             <ul className={className}
@@ -96,6 +87,8 @@ Zlide.propTypes = {
     currentSlide: PropTypes.number,
     centerMode: PropTypes.bool,
     circular: PropTypes.bool,
+    easing: PropTypes.string,
+    slidingDuration: PropTypes.number,
     className: PropTypes.string
 };
 
@@ -104,5 +97,7 @@ Zlide.defaultProps = {
     currentSlide: 0,
     centerMode: true,
     className: 'zlide',
+    easing: 'ease-in-out',
+    slidingDuration: 0.2,
     circular: false
 };

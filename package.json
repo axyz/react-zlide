@@ -1,6 +1,6 @@
 {
   "name": "react-zlide",
-  "version": "0.2.7",
+  "version": "0.3.0",
   "description": "Lightweight and stateless slider component for React.js",
   "main": "dist/react-zlide.js",
   "scripts": {
@@ -12,6 +12,8 @@
     "react",
     "stateless",
     "redux",
+    "css3",
+    "flexbox",
     "component",
     "fast",
     "simple",

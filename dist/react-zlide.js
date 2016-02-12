@@ -102,11 +102,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	function _cycleInt(n, limit) {
+	    return n % limit;
+	}
 	
 	var Zlide = function (_Component) {
 	    _inherits(Zlide, _Component);
@@ -132,47 +138,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var currentSlide = _props.currentSlide;
 	            var centerMode = _props.centerMode;
 	            var className = _props.className;
+	            var easing = _props.easing;
+	            var slidingDuration = _props.slidingDuration;
 	            var circular = _props.circular;
 	            var children = _props.children;
 	
 	            var sideSize = Math.floor(visibleSlides / 2);
-	            var offset = 0;
-	
-	            if (centerMode) {
-	                offset = sideSize;
-	
-	                if (circular) {
-	                    if (currentSlide < sideSize) {
-	                        offset = offset - sideSize;
-	                    } else if (currentSlide >= children.length - sideSize) {
-	                        offset = offset + sideSize;
-	                    }
-	                }
-	            } else {
-	                if (circular) {
-	                    if (currentSlide >= children.length - visibleSlides - 1) {
-	                        offset = visibleSlides - (children.length - currentSlide);
-	                    }
-	                }
-	            }
+	            var offset = centerMode ? sideSize : 0;
+	            var calcSlideWidth = '(100% / ' + visibleSlides + ')';
+	            var pos = _cycleInt(currentSlide - offset, children.length);
+	            var left = 'calc((' + calcSlideWidth + ' * ' + currentSlide + ') - ' + calcSlideWidth + ')';
 	
 	            var style = {
-	                transform: 'translate3d(calc((100% / ' + visibleSlides + ') * -1 * ' + (currentSlide - offset) + '), 0, 0)',
+	                transform: 'translate3d(calc(-1 * (' + calcSlideWidth + ' * ' + currentSlide + ')), 0, 0)',
+	                transition: 'transform ' + slidingDuration + 's 0s ' + easing,
+	                left: left,
 	                position: 'relative',
 	                display: 'flex',
 	                padding: 0,
 	                margin: 0
 	            };
 	
-	            var slideStyle = {
-	                flex: '0 0 calc(100% / ' + visibleSlides + ')',
-	                display: 'block'
-	            };
-	
-	            var slides = children.map(function (slide, index) {
+	            var slides = [children[children.length - 1]].concat(_toConsumableArray(children)).map(function (slide, index, slides) {
 	                var slideClass = 'zlide_slide';
+	                var order = pos;
 	
-	                slideClass += index === currentSlide ? ' zlide_slide-current' : '';
+	                if (pos >= 0) {
+	                    if (index === pos) {
+	                        order = 0;
+	                    } else if (index === 0) {
+	                        order = children.length;
+	                    } else {
+	                        order = _cycleInt(slides.length - pos + index, slides.length);
+	                    }
+	                } else {
+	                    order = index === 0 ? children.length : _cycleInt(index - pos, children.length);
+	                }
+	
+	                var slideStyle = {
+	                    order: order,
+	                    flex: '0 0 calc' + calcSlideWidth,
+	                    display: 'block'
+	                };
+	
+	                slideClass += index === Math.abs(_cycleInt(currentSlide + offset, slides.length)) ? ' zlide_slide-current' : '';
 	
 	                return _react2.default.createElement(
 	                    'li',
@@ -185,23 +194,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    slide
 	                );
 	            });
-	
-	            if (circular) {
-	                if (centerMode && currentSlide < sideSize) {
-	                    for (var i = 0; i < sideSize; i++) {
-	                        slides.unshift(slides.pop());
-	                    }
-	                } else if (centerMode && currentSlide >= children.length - sideSize) {
-	                    for (var i = 0; i < sideSize; i++) {
-	                        slides.push(slides.shift());
-	                    }
-	                } else if (!centerMode && currentSlide >= children.length - visibleSlides - 1) {
-	                    var rightLimit = visibleSlides - (children.length - currentSlide);
-	                    for (var i = 0; i < rightLimit; i++) {
-	                        slides.push(slides.shift());
-	                    }
-	                }
-	            }
 	
 	            return _react2.default.createElement(
 	                'ul',
@@ -222,6 +214,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    currentSlide: _react.PropTypes.number,
 	    centerMode: _react.PropTypes.bool,
 	    circular: _react.PropTypes.bool,
+	    easing: _react.PropTypes.string,
+	    slidingDuration: _react.PropTypes.number,
 	    className: _react.PropTypes.string
 	};
 	
@@ -230,6 +224,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    currentSlide: 0,
 	    centerMode: true,
 	    className: 'zlide',
+	    easing: 'ease-in-out',
+	    slidingDuration: 0.2,
 	    circular: false
 	};
 

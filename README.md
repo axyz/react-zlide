@@ -3,6 +3,8 @@ react-zlide
 
 Lightweight and stateless slider component for React.js
 
+It uses only css3 for sizing and animations.
+
 Usage
 -----
 Add `react-zlide` as a dependency
@@ -33,6 +35,8 @@ ReactDOM.render(
             visibleSlides={3} // how many slides to show at once default to 3
             centerMode // default to true
             circular // infinite slideshow default to false
+            easing={'ease-in-out'} // easing function default to ease-in-out
+            slidingDuration={0.2} // sliding animation duration in ms default to 0.2
             onClick={(index) => console.log('slide click ' + index)}>
 
             ... // slides (e.g. <img> tags)

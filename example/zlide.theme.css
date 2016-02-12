@@ -10,10 +10,6 @@
     width: 100%;
 }
 
-.zlide {
-  transition: transform .2s ease-in-out;
-}
-
 .zlide_slide img {
     width: 100%;
 }
