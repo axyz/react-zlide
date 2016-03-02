@@ -4,40 +4,77 @@ function _cycleInt(n, limit) {
     return n % limit;
 }
 
+function _boundInt(n, lower, upper) {
+    if (n < lower) return lower;
+    if (n > upper) return upper;
+    return n;
+}
+
 export default class Zlide extends Component {
     handleClick(index) {
         this.props.onClick && this.props.onClick(index);
     }
 
-    render() {
+    setupSlides() {
         const {
-            visibleSlides,
-            currentSlide,
-            centerMode,
-            className,
-            easing,
-            slidingDuration,
             circular,
             children
         } = this.props;
 
-        const sideSize = Math.floor(visibleSlides / 2);
-        const offset = centerMode ? sideSize : 0;
-        const calcSlideWidth = `(100% / ${visibleSlides})`;
-        const pos = _cycleInt(currentSlide - offset, children.length);
-        const left = `calc((${calcSlideWidth} * ${currentSlide}) - ${calcSlideWidth})`;
+        return circular
+            ? [children[children.length - 1], ...children]
+            : children;
+    }
 
-        const style = {
-            transform: `translate3d(calc(-1 * (${calcSlideWidth} * ${currentSlide})), 0, 0)`,
-            transition: `transform ${slidingDuration}s 0s ${easing}`,
-            left: left,
-            position: 'relative',
-            display: 'flex',
-            padding: 0,
-            margin: 0
-        };
+    renderSlide(slide, className, style, index) {
+        return(
+            <li className={className}
+              key={'zlide-slide-' + index}
+              onClick={() => this.handleClick(index)}
+              style={style}>
+                {slide}
+            </li>
+        );
+    }
 
-        let slides = [children[children.length - 1], ...children].map((slide, index, slides) => {
+    renderSlides(slides, pos, calcSlideWidth, offset) {
+        const {
+            circular
+        } = this.props;
+
+        return circular
+            ? this.renderCircularModeSlides(slides, pos, calcSlideWidth, offset)
+            : this.renderNormalModeSlides(slides, pos, calcSlideWidth, offset);
+    }
+
+    renderNormalModeSlides(slides, pos, calcSlideWidth, offset) {
+        const {
+            children,
+            currentSlide
+        } = this.props;
+
+        return slides.map((slide, index) => {
+            let slideClass = 'zlide_slide';
+            const slideStyle = {
+                flex: `0 0 calc${calcSlideWidth}`,
+                display: 'block'
+            };
+
+            slideClass += index === currentSlide
+                ? ' zlide_slide-current'
+                : '';
+
+            return this.renderSlide(slide, slideClass, slideStyle, index);
+        });
+    }
+
+    renderCircularModeSlides(slides, pos, calcSlideWidth, offset) {
+        const {
+            children,
+            currentSlide
+        } = this.props;
+
+        return slides.map((slide, index) => {
             let slideClass = 'zlide_slide';
             let order = pos;
 
@@ -63,20 +100,60 @@ export default class Zlide extends Component {
                 ? ' zlide_slide-current'
                 : '';
 
-            return(
-                <li className={slideClass}
-                    key={'zlide-slide-' + index}
-                    onClick={() => this.handleClick(index)}
-                    style={slideStyle}>
-                    {slide}
-                </li>
-            );
+            return this.renderSlide(slide, slideClass, slideStyle, index);
         });
+    }
+
+    getStyle(calcSlideWidth, offset) {
+        const {
+            circular,
+            children,
+            centerMode,
+            currentSlide,
+            slidingDuration,
+            easing
+        } = this.props;
+
+        const left = circular
+            ? `calc((${calcSlideWidth} * ${currentSlide}) - ${calcSlideWidth})`
+            : 0;
+
+        const transform = circular
+            ? `translate3d(calc(-1 * (${calcSlideWidth} * ${currentSlide})), 0, 0)`
+            : `translate3d(calc(-1 * (${calcSlideWidth} * ${currentSlide - offset})), 0, 0)`;
+
+        return {
+            transform,
+            transition: `transform ${slidingDuration}s 0s ${easing}`,
+            left,
+            position: 'relative',
+            display: 'flex',
+            padding: 0,
+            margin: 0
+        };
+    }
+
+    render() {
+        const {
+            visibleSlides,
+            currentSlide,
+            centerMode,
+            className,
+            circular,
+            children
+        } = this.props;
+
+        const sideSize = Math.floor(visibleSlides / 2);
+        const offset = centerMode ? sideSize : 0;
+        const calcSlideWidth = `(100% / ${visibleSlides})`;
+        const pos = _cycleInt(currentSlide - offset, children.length);
+
+        const slides = this.setupSlides();
 
         return (
             <ul className={className}
-                style={style}>
-                {slides}
+                style={this.getStyle(calcSlideWidth, offset)}>
+                {this.renderSlides(slides, pos, calcSlideWidth, offset)}
             </ul>
         );
     }

@@ -114,6 +114,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return n % limit;
 	}
 	
+	function _boundInt(n, lower, upper) {
+	    if (n < lower) return lower;
+	    if (n > upper) return upper;
+	    return n;
+	}
+	
 	var Zlide = function (_Component) {
 	    _inherits(Zlide, _Component);
 	
@@ -129,37 +135,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.props.onClick && this.props.onClick(index);
 	        }
 	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var _this2 = this;
-	
+	        key: 'setupSlides',
+	        value: function setupSlides() {
 	            var _props = this.props;
-	            var visibleSlides = _props.visibleSlides;
-	            var currentSlide = _props.currentSlide;
-	            var centerMode = _props.centerMode;
-	            var className = _props.className;
-	            var easing = _props.easing;
-	            var slidingDuration = _props.slidingDuration;
 	            var circular = _props.circular;
 	            var children = _props.children;
 	
-	            var sideSize = Math.floor(visibleSlides / 2);
-	            var offset = centerMode ? sideSize : 0;
-	            var calcSlideWidth = '(100% / ' + visibleSlides + ')';
-	            var pos = _cycleInt(currentSlide - offset, children.length);
-	            var left = 'calc((' + calcSlideWidth + ' * ' + currentSlide + ') - ' + calcSlideWidth + ')';
 	
-	            var style = {
-	                transform: 'translate3d(calc(-1 * (' + calcSlideWidth + ' * ' + currentSlide + ')), 0, 0)',
-	                transition: 'transform ' + slidingDuration + 's 0s ' + easing,
-	                left: left,
-	                position: 'relative',
-	                display: 'flex',
-	                padding: 0,
-	                margin: 0
-	            };
+	            return circular ? [children[children.length - 1]].concat(_toConsumableArray(children)) : children;
+	        }
+	    }, {
+	        key: 'renderSlide',
+	        value: function renderSlide(slide, className, style, index) {
+	            var _this2 = this;
 	
-	            var slides = [children[children.length - 1]].concat(_toConsumableArray(children)).map(function (slide, index, slides) {
+	            return _react2.default.createElement(
+	                'li',
+	                { className: className,
+	                    key: 'zlide-slide-' + index,
+	                    onClick: function onClick() {
+	                        return _this2.handleClick(index);
+	                    },
+	                    style: style },
+	                slide
+	            );
+	        }
+	    }, {
+	        key: 'renderSlides',
+	        value: function renderSlides(slides, pos, calcSlideWidth, offset) {
+	            var circular = this.props.circular;
+	
+	
+	            return circular ? this.renderCircularModeSlides(slides, pos, calcSlideWidth, offset) : this.renderNormalModeSlides(slides, pos, calcSlideWidth, offset);
+	        }
+	    }, {
+	        key: 'renderNormalModeSlides',
+	        value: function renderNormalModeSlides(slides, pos, calcSlideWidth, offset) {
+	            var _this3 = this;
+	
+	            var _props2 = this.props;
+	            var children = _props2.children;
+	            var currentSlide = _props2.currentSlide;
+	
+	
+	            return slides.map(function (slide, index) {
+	                var slideClass = 'zlide_slide';
+	                var slideStyle = {
+	                    flex: '0 0 calc' + calcSlideWidth,
+	                    display: 'block'
+	                };
+	
+	                slideClass += index === currentSlide ? ' zlide_slide-current' : '';
+	
+	                return _this3.renderSlide(slide, slideClass, slideStyle, index);
+	            });
+	        }
+	    }, {
+	        key: 'renderCircularModeSlides',
+	        value: function renderCircularModeSlides(slides, pos, calcSlideWidth, offset) {
+	            var _this4 = this;
+	
+	            var _props3 = this.props;
+	            var children = _props3.children;
+	            var currentSlide = _props3.currentSlide;
+	
+	
+	            return slides.map(function (slide, index) {
 	                var slideClass = 'zlide_slide';
 	                var order = pos;
 	
@@ -183,23 +224,59 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                slideClass += index === Math.abs(_cycleInt(currentSlide + offset, slides.length)) ? ' zlide_slide-current' : '';
 	
-	                return _react2.default.createElement(
-	                    'li',
-	                    { className: slideClass,
-	                        key: 'zlide-slide-' + index,
-	                        onClick: function onClick() {
-	                            return _this2.handleClick(index);
-	                        },
-	                        style: slideStyle },
-	                    slide
-	                );
+	                return _this4.renderSlide(slide, slideClass, slideStyle, index);
 	            });
+	        }
+	    }, {
+	        key: 'getStyle',
+	        value: function getStyle(calcSlideWidth, offset) {
+	            var _props4 = this.props;
+	            var circular = _props4.circular;
+	            var children = _props4.children;
+	            var centerMode = _props4.centerMode;
+	            var currentSlide = _props4.currentSlide;
+	            var slidingDuration = _props4.slidingDuration;
+	            var easing = _props4.easing;
+	
+	
+	            var left = circular ? 'calc((' + calcSlideWidth + ' * ' + currentSlide + ') - ' + calcSlideWidth + ')' : 0;
+	
+	            var transform = circular ? 'translate3d(calc(-1 * (' + calcSlideWidth + ' * ' + currentSlide + ')), 0, 0)' : 'translate3d(calc(-1 * (' + calcSlideWidth + ' * ' + (currentSlide - offset) + ')), 0, 0)';
+	
+	            return {
+	                transform: transform,
+	                transition: 'transform ' + slidingDuration + 's 0s ' + easing,
+	                left: left,
+	                position: 'relative',
+	                display: 'flex',
+	                padding: 0,
+	                margin: 0
+	            };
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _props5 = this.props;
+	            var visibleSlides = _props5.visibleSlides;
+	            var currentSlide = _props5.currentSlide;
+	            var centerMode = _props5.centerMode;
+	            var className = _props5.className;
+	            var circular = _props5.circular;
+	            var children = _props5.children;
+	
+	
+	            var sideSize = Math.floor(visibleSlides / 2);
+	            var offset = centerMode ? sideSize : 0;
+	            var calcSlideWidth = '(100% / ' + visibleSlides + ')';
+	            var pos = _cycleInt(currentSlide - offset, children.length);
+	
+	            var slides = this.setupSlides();
 	
 	            return _react2.default.createElement(
 	                'ul',
 	                { className: className,
-	                    style: style },
-	                slides
+	                    style: this.getStyle(calcSlideWidth, offset) },
+	                this.renderSlides(slides, pos, calcSlideWidth, offset)
 	            );
 	        }
 	    }]);
@@ -208,6 +285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_react.Component);
 	
 	exports.default = Zlide;
+	
 	
 	Zlide.propTypes = {
 	    visibleSlides: _react.PropTypes.number,
@@ -276,6 +354,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var children = _props.children;
 	            var className = _props.className;
 	
+	
 	            return _react2.default.createElement(
 	                'div',
 	                { className: className,
@@ -289,6 +368,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_react.Component);
 	
 	exports.default = ZlidePrev;
+	
 	
 	ZlidePrev.propTypes = {
 	    onClick: _react.PropTypes.func,
@@ -340,6 +420,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var children = _props.children;
 	            var className = _props.className;
 	
+	
 	            return _react2.default.createElement(
 	                'div',
 	                { className: className,
@@ -353,6 +434,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_react.Component);
 	
 	exports.default = ZlideNext;
+	
 	
 	ZlideNext.propTypes = {
 	    onClick: _react.PropTypes.func,
@@ -415,6 +497,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var children = _props.children;
 	            var className = _props.className;
 	
+	
 	            var thumbnails = children.map(function (thumb, index) {
 	                return _react2.default.createElement(
 	                    'li',
@@ -447,6 +530,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_react.Component);
 	
 	exports.default = ZlideThumbs;
+	
 	
 	ZlideThumbs.propTypes = {
 	    onClick: _react.PropTypes.func,
