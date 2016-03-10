@@ -11,7 +11,9 @@ function getZlideMock(opts) {
     const options = Object.assign({}, defaultOpts, opts);
 
     return shallow(
-        React.createElement(Zlide, options.props, options.children)
+        <Zlide {...options.props}>
+            {options.children}
+        </Zlide>
     );
 }
 

@@ -1,10 +1,11 @@
 {
   "name": "react-zlide",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Lightweight and stateless slider component for React.js",
   "main": "dist/react-zlide.js",
   "scripts": {
-    "test": "./node_modules/.bin/ava src/**/*-test.js"
+    "test": "./node_modules/.bin/ava",
+    "test:watch": "./node_modules/.bin/ava --watch"
   },
   "repository": "zalando/react-zlide",
   "keywords": [
@@ -24,14 +25,14 @@
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "6.3.1",
-    "ava": "^0.12.0",
+    "ava": "0.13.0",
     "babel-core": "6.4.5",
     "babel-loader": "6.2.2",
     "babel-preset-es2015": "6.3.13",
     "babel-preset-react": "6.3.13",
     "babel-preset-stage-0": "6.3.13",
-    "babel-register": "^6.6.0",
-    "enzyme": "^2.0.0",
+    "babel-register": "6.6.0",
+    "enzyme": "2.0.0",
     "eslint": "1.10.3",
     "eslint-loader": "1.2.1",
     "eslint-plugin-react": "3.16.1",
@@ -47,8 +48,15 @@
     "files": [
       "src/**/*-test.js"
     ],
+    "babel": {
+      "presets": [
+        "es2015",
+        "stage-3",
+        "react"
+      ]
+    },
     "require": [
-      "babel-register"
+      "babel-core/register"
     ]
   }
 }
