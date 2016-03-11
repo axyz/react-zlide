@@ -1,11 +1,12 @@
 {
   "name": "react-zlide",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Lightweight and stateless slider component for React.js",
   "main": "dist/react-zlide.js",
   "scripts": {
-    "test": "./node_modules/.bin/ava",
-    "test:watch": "./node_modules/.bin/ava --watch"
+    "test": "ava",
+    "test:watch": "ava --watch",
+    "prepublish": "NODE_ENV=production webpack"
   },
   "repository": "zalando/react-zlide",
   "keywords": [
@@ -24,7 +25,6 @@
   "author": "Andrea Moretti <axyzxp@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "autoprefixer": "6.3.1",
     "ava": "0.13.0",
     "babel-core": "6.4.5",
     "babel-loader": "6.2.2",
