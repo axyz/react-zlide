@@ -11,13 +11,13 @@ Add `react-zlide` as a dependency
 
 `$ npm install --save react-zlide`
 
-then simply use the provided components
+then simply use the provided component
 
-Note that all the components are stateless, so updating the `currentSlide` should
+Note that the component is stateless, so updating the `currentSlide` should
 be handled in the model of your app (e.g. using redux or similar flux
 implementations)
 
-The components are also unstyled (except for the slide layout and transform).
+The component is also unstyled (except for the slide layout and transform).
 
 For the `Zlide` component to work correctly, please be sure to have support for
 `calc`, `flex` and `transform` or eventually be sure to use polyfills.
@@ -26,7 +26,7 @@ For the `Zlide` component to work correctly, please be sure to have support for
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Zlide, ZlidePrev, ZlideNext, ZlideThumbs } from 'react-zlide';
+import Zlide from 'react-zlide';
 
 ReactDOM.render(
     <div>
@@ -45,25 +45,18 @@ ReactDOM.render(
 
         // you may probably want to bind an action that updates the currentSlide
         // on your store to the `onClick` event
-        <ZlidePrev onClick={() => console.log('prev click')}>
+        <div onClick={() => console.log('prev click')}>
 
             prev
 
-        </ZlidePrev>
+        </div>
 
-        <ZlidePrev onClick={() => console.log('next click')}>
+        <div onClick={() => console.log('next click')}>
 
            next
 
-        </ZlidePrev>
+        </div>
 
-        <ZlideThumbs
-            onClick={(index) => console.log('thumb click ' + index)}
-            onOver={(index) => console.log('thumb over ' + index)}>
-
-            ... // thumbs (e.g. smaller <img> tags)
-
-        </ZlideThumbs>
     </div>,
     document.getElementById('zlide-example')
 );
