@@ -79,7 +79,7 @@ export default class Zlide extends Component {
                 ? ' zlide_slide-current'
                 : '';
 
-            return this.renderSlide(slideChild, slideClass, slideStyle, index);
+            return this.renderSlide({ slideChild, slideClass, slideStyle, index });
         });
     }
 

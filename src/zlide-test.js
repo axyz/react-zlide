@@ -44,3 +44,35 @@ test('when not in circular mode should have the same number of children and slid
 
     t.is(zlide.find('.zlide_slide').length, 3);
 });
+
+test('when not in circular and lazy mode should not load all images', t => {
+    const zlide = getZlideMock({
+        props: {
+            visibleSlides: 3,
+            currentSlide: 0,
+            center: false,
+            circular: false,
+            lazy: true,
+            loadedList: [0, 1, 2]
+        },
+        children: ['SLIDE-1', 'SLIDE-2', 'SLIDE-3', 'SLIDE-4', 'SLIDE-5', 'SLIDE-6']
+    });
+
+    t.is(zlide.find('.zlide_slide-lazy').length, 3);
+});
+
+test('when in circular and lazy mode should not load all images', t => {
+    const zlide = getZlideMock({
+        props: {
+            visibleSlides: 3,
+            currentSlide: 0,
+            center: true,
+            circular: true,
+            lazy: true,
+            loadedList: [0, 1, 2]
+        },
+        children: ['SLIDE-1', 'SLIDE-2', 'SLIDE-3', 'SLIDE-4', 'SLIDE-5', 'SLIDE-6']
+    });
+
+    t.is(zlide.find('.zlide_slide-lazy').length, 4);
+});
