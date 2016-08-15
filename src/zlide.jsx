@@ -70,13 +70,9 @@ export default class Zlide extends Component {
 
         return slideChildren.map((slideChild, index) => {
             const slideStyle = {
-<<<<<<< HEAD
                 flexGrow: 0,
                 flexShrink: 0,
                 flexBasis: `calc${calcSlideWidth}`,
-=======
-                flex: `0 0 calc${slideWidth}`,
->>>>>>> 35ee9db76c555100b39c9e9de84b9c5fbcf64031
                 display: 'block'
             };
 
@@ -121,13 +117,9 @@ export default class Zlide extends Component {
 
             const slideStyle = {
                 order: order,
-<<<<<<< HEAD
                 flexGrow: 0,
                 flexShrink: 0,
                 flexBasis: `calc${calcSlideWidth}`,
-=======
-                flex: `0 0 calc${slideWidth}`,
->>>>>>> 35ee9db76c555100b39c9e9de84b9c5fbcf64031
                 display: 'block'
             };
 
@@ -193,17 +185,11 @@ export default class Zlide extends Component {
         };
         const slides = this.renderSlides(settings);
         return (
-<<<<<<< HEAD
-            <ul className={className}
-                style={this.getStyle(calcSlideWidth, visibleSlides, offset)}>
-                {this.renderSlides(slides, pos, calcSlideWidth, offset)}
-=======
             <ul
                 className={className}
-                style={this.getStyle(calcSlideWidth, offset)}
+                style={this.getStyle(calcSlideWidth, visibleSlides, offset)}
             >
                 {slides}
->>>>>>> 35ee9db76c555100b39c9e9de84b9c5fbcf64031
             </ul>
         );
     }
