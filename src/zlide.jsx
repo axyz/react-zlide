@@ -146,7 +146,7 @@ export default class Zlide extends Component {
         } = this.props;
 
         const left = circular
-            ? `calc((${slideWidth}% * ${currentSlide}) - ${slideWidth}%)`
+            ? `${(slideWidth * currentSlide) - slideWidth}%`
             : 0;
 
         const translateCircularValue = -1 * slideWidth * currentSlide;
