@@ -25,7 +25,7 @@ class ZlideExample extends Component {
                     <img src="https://mosaic01.ztat.net/nvg/media/large_hd/NL/02/2H/00/QN/11/NL022H00Q-N11@10.jpg" />
                     <img src="https://mosaic01.ztat.net/nvg/media/large_hd/NL/02/2H/00/QN/11/NL022H00Q-N11@9.jpg" />
                 </Zlide>
-            
+
                 <div
                     style={{ textAlign: 'center' }}
                 >

@@ -1,7 +1,9 @@
+const objectAssign = require('object-assign');
+
 export default (state = {
     visibleSlides: 3,
-    currentSlide: 1,
-    loadedList: [1, 2, 3, 4]
+    currentSlide: 0,
+    loadedList: [8, 0, 1, 2, 3]
 }, action) => {
     switch (action.type) {
         case 'NEXT': {
@@ -13,7 +15,7 @@ export default (state = {
                 newLoadedList.push(nextLoadSlide);
             }
 
-            return Object.assign({}, state, {
+            return objectAssign({}, state, {
                 currentSlide: nextSlide,
                 loadedList: newLoadedList,
             });
@@ -26,7 +28,7 @@ export default (state = {
                 newLoadedList.push(prevSlide);
             }
 
-            return Object.assign({}, state, {
+            return objectAssign({}, state, {
                 currentSlide: prevSlide,
                 loadedList: newLoadedList,
             });
