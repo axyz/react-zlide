@@ -15,7 +15,7 @@ export default class Zlide extends Component {
         this.props.onClick && this.props.onClick(index);
     }
 
-    setupSlides() {
+    setupSlideChildren() {
         const {
             circular,
             children
@@ -26,57 +26,84 @@ export default class Zlide extends Component {
             : children;
     }
 
-    renderSlide(slide, className, style, index) {
-        return(
-            <li className={className}
-              key={'zlide-slide-' + index}
-              onClick={() => this.handleClick(index)}
-              style={style}>
-                {slide}
-            </li>
-        );
+    renderSlide({ slideClass, slideStyle, slideChild, index }) {
+        const {
+            lazy,
+            loadedList,
+        } = this.props;
+        const renderSlideChild = !lazy || (lazy && loadedList.indexOf(index) !== -1);
+        return renderSlideChild
+            ? (
+                <li
+                    key={'zlide-slide-' + index}
+                    className={slideClass}
+                    style={slideStyle}
+                    onClick={() => this.handleClick(index)}
+                >
+                    {slideChild}
+                </li>
+            )
+            : (
+                <li key={`zlide-slide-${index}`} className="zlide_slide zlide_slide-lazy"></li>
+            );
     }
 
-    renderSlides(slides, pos, calcSlideWidth, offset) {
+    renderSlides(settings) {
         const {
             circular
         } = this.props;
 
         return circular
-            ? this.renderCircularModeSlides(slides, pos, calcSlideWidth, offset)
-            : this.renderNormalModeSlides(slides, pos, calcSlideWidth, offset);
+            ? this.renderCircularModeSlides(settings)
+            : this.renderNormalModeSlides(settings);
     }
 
-    renderNormalModeSlides(slides, pos, calcSlideWidth, offset) {
+    renderNormalModeSlides({
+        slideChildren,
+        slideWidth,
+    }) {
         const {
-            children,
-            currentSlide
+            currentSlide,
+            loadedList,
+            lazy,
         } = this.props;
 
-        return slides.map((slide, index) => {
-            let slideClass = 'zlide_slide';
+        return slideChildren.map((slideChild, index) => {
             const slideStyle = {
+<<<<<<< HEAD
                 flexGrow: 0,
                 flexShrink: 0,
                 flexBasis: `calc${calcSlideWidth}`,
+=======
+                flex: `0 0 calc${slideWidth}`,
+>>>>>>> 35ee9db76c555100b39c9e9de84b9c5fbcf64031
                 display: 'block'
             };
 
+            let slideClass = 'zlide_slide';
             slideClass += index === currentSlide
                 ? ' zlide_slide-current'
                 : '';
 
-            return this.renderSlide(slide, slideClass, slideStyle, index);
+            return this.renderSlide({ slideChild, slideClass, slideStyle, index });
         });
     }
 
-    renderCircularModeSlides(slides, pos, calcSlideWidth, offset) {
+    renderCircularModeSlides({
+        slideChildren,
+        slideWidth,
+        pos,
+        offset,
+    }) {
         const {
+            currentSlide,
+            loadedList,
             children,
-            currentSlide
+            lazy,
         } = this.props;
-
-        return slides.map((slide, index) => {
+        const slideChildrenLength = slideChildren.length;
+        const childrenLength = children.length;
+        return slideChildren.map((slideChild, index) => {
             let slideClass = 'zlide_slide';
             let order = pos;
 
@@ -84,36 +111,40 @@ export default class Zlide extends Component {
                 if (index === pos) {
                     order = 0;
                 } else if (index === 0) {
-                    order = children.length;
+                    order = childrenLength;
                 } else {
-                    order = _cycleInt(slides.length - pos + index, slides.length);
+                    order = _cycleInt(slideChildrenLength - pos + index, slideChildrenLength);
                 }
             } else {
-                order = (index === 0) ? children.length : _cycleInt(index - pos, children.length);
+                order = (index === 0) ? childrenLength : _cycleInt(index - pos, childrenLength);
             }
 
             const slideStyle = {
                 order: order,
+<<<<<<< HEAD
                 flexGrow: 0,
                 flexShrink: 0,
                 flexBasis: `calc${calcSlideWidth}`,
+=======
+                flex: `0 0 calc${slideWidth}`,
+>>>>>>> 35ee9db76c555100b39c9e9de84b9c5fbcf64031
                 display: 'block'
             };
 
-            slideClass += index === Math.abs(_cycleInt(currentSlide + offset, slides.length))
+            slideClass += index === Math.abs(_cycleInt(currentSlide + offset, slideChildrenLength))
                 ? ' zlide_slide-current'
                 : '';
 
-            return this.renderSlide(slide, slideClass, slideStyle, index);
+            return this.renderSlide({ slideChild, slideClass, slideStyle, index });
         });
     }
 
     getStyle(calcSlideWidth, visibleSlides, offset) {
         const {
+            currentSlide,
             circular,
             children,
             centerMode,
-            currentSlide,
             slidingDuration,
             easing
         } = this.props;
@@ -141,25 +172,38 @@ export default class Zlide extends Component {
 
     render() {
         const {
+            className,
             visibleSlides,
             currentSlide,
             centerMode,
-            className,
             circular,
+            lazy,
             children
         } = this.props;
 
-        const sideSize = Math.floor(visibleSlides / 2);
-        const offset = centerMode ? sideSize : 0;
+        const slideSize = Math.floor(visibleSlides / 2);
+        const offset = centerMode ? slideSize : 0;
         const calcSlideWidth = `(100% / ${visibleSlides})`;
         const pos = _cycleInt(currentSlide - offset, children.length);
-
-        const slides = this.setupSlides();
-
+        const settings = {
+            slideChildren: this.setupSlideChildren(),
+            slideWidth: calcSlideWidth,
+            pos,
+            offset
+        };
+        const slides = this.renderSlides(settings);
         return (
+<<<<<<< HEAD
             <ul className={className}
                 style={this.getStyle(calcSlideWidth, visibleSlides, offset)}>
                 {this.renderSlides(slides, pos, calcSlideWidth, offset)}
+=======
+            <ul
+                className={className}
+                style={this.getStyle(calcSlideWidth, offset)}
+            >
+                {slides}
+>>>>>>> 35ee9db76c555100b39c9e9de84b9c5fbcf64031
             </ul>
         );
     }
@@ -170,17 +214,23 @@ Zlide.propTypes = {
     currentSlide: PropTypes.number,
     centerMode: PropTypes.bool,
     circular: PropTypes.bool,
+    lazy: PropTypes.bool,
+    loadedList: PropTypes.arrayOf(PropTypes.number),
     easing: PropTypes.string,
     slidingDuration: PropTypes.number,
-    className: PropTypes.string
+    className: PropTypes.string,
+    onClick: PropTypes.func,
 };
 
 Zlide.defaultProps = {
     visibleSlides: 3,
     currentSlide: 0,
     centerMode: true,
+    circular: false,
+    lazy: false,
+    loadedList: [],
     className: 'zlide',
     easing: 'ease-in-out',
     slidingDuration: 0.2,
-    circular: false
+    onClick: () => {},
 };
