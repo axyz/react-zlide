@@ -44,7 +44,11 @@ export default class Zlide extends Component {
                 </li>
             )
             : (
-                <li key={`zlide-slide-${index}`} className="zlide_slide zlide_slide-lazy"></li>
+                <li
+                    key={`zlide-slide-${index}`}
+                    className="zlide_slide zlide_slide-lazy"
+                    style={slideStyle}
+                ></li>
             );
     }
 
@@ -72,7 +76,7 @@ export default class Zlide extends Component {
             const slideStyle = {
                 flexGrow: 0,
                 flexShrink: 0,
-                flexBasis: `calc${calcSlideWidth}`,
+                flexBasis: `${slideWidth}%`,
                 display: 'block'
             };
 
@@ -119,7 +123,7 @@ export default class Zlide extends Component {
                 order: order,
                 flexGrow: 0,
                 flexShrink: 0,
-                flexBasis: `calc${calcSlideWidth}`,
+                flexBasis: `${slideWidth}%`,
                 display: 'block'
             };
 
@@ -131,7 +135,7 @@ export default class Zlide extends Component {
         });
     }
 
-    getStyle(calcSlideWidth, visibleSlides, offset) {
+    getStyle(slideWidth, offset) {
         const {
             currentSlide,
             circular,
@@ -142,14 +146,14 @@ export default class Zlide extends Component {
         } = this.props;
 
         const left = circular
-            ? `calc((${calcSlideWidth} * ${currentSlide}) - ${calcSlideWidth})`
+            ? `calc((${slideWidth}% * ${currentSlide}) - ${slideWidth}%)`
             : 0;
 
-        const translateXValue = -1 * (100 / visibleSlides) * currentSlide;
-        const translateXXValue = -1 * (100 / visibleSlides) * (currentSlide - offset);
+        const translateCircularValue = -1 * slideWidth * currentSlide;
+        const translateValue = -1 * slideWidth * (currentSlide - offset);
         const transform = circular
-            ? `translateX(${translateXValue}%)`
-            : `translateX(${translateXXValue})`;
+            ? `translateX(${translateCircularValue}%)`
+            : `translateX(${translateValue}%)`;
 
         return {
             transform,
@@ -175,11 +179,11 @@ export default class Zlide extends Component {
 
         const slideSize = Math.floor(visibleSlides / 2);
         const offset = centerMode ? slideSize : 0;
-        const calcSlideWidth = `(100% / ${visibleSlides})`;
+        const slideWidth = 100 / visibleSlides;
         const pos = _cycleInt(currentSlide - offset, children.length);
         const settings = {
             slideChildren: this.setupSlideChildren(),
-            slideWidth: calcSlideWidth,
+            slideWidth,
             pos,
             offset
         };
@@ -187,7 +191,7 @@ export default class Zlide extends Component {
         return (
             <ul
                 className={className}
-                style={this.getStyle(calcSlideWidth, visibleSlides, offset)}
+                style={this.getStyle(slideWidth, offset)}
             >
                 {slides}
             </ul>

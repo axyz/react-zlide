@@ -36,6 +36,7 @@
     "eslint": "1.10.3",
     "eslint-loader": "1.2.1",
     "eslint-plugin-react": "3.16.1",
+    "object-assign": "^4.1.0",
     "react": "^15.2.0",
     "react-addons-test-utils": "^15.2.0",
     "react-dom": "15.2.0",
