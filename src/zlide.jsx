@@ -56,7 +56,9 @@ export default class Zlide extends Component {
         return slides.map((slide, index) => {
             let slideClass = 'zlide_slide';
             const slideStyle = {
-                flex: `0 0 calc${calcSlideWidth}`,
+                flexGrow: 0,
+                flexShrink: 0,
+                flexBasis: `calc${calcSlideWidth}`,
                 display: 'block'
             };
 
@@ -92,7 +94,9 @@ export default class Zlide extends Component {
 
             const slideStyle = {
                 order: order,
-                flex: `0 0 calc${calcSlideWidth}`,
+                flexGrow: 0,
+                flexShrink: 0,
+                flexBasis: `calc${calcSlideWidth}`,
                 display: 'block'
             };
 
@@ -104,7 +108,7 @@ export default class Zlide extends Component {
         });
     }
 
-    getStyle(calcSlideWidth, offset) {
+    getStyle(calcSlideWidth, visibleSlides, offset) {
         const {
             circular,
             children,
@@ -118,9 +122,11 @@ export default class Zlide extends Component {
             ? `calc((${calcSlideWidth} * ${currentSlide}) - ${calcSlideWidth})`
             : 0;
 
+        const translateXValue = -1 * (100 / visibleSlides) * currentSlide;
+        const translateXXValue = -1 * (100 / visibleSlides) * (currentSlide - offset);
         const transform = circular
-            ? `translate3d(calc(-1 * (${calcSlideWidth} * ${currentSlide})), 0, 0)`
-            : `translate3d(calc(-1 * (${calcSlideWidth} * ${currentSlide - offset})), 0, 0)`;
+            ? `translateX(${translateXValue}%)`
+            : `translateX(${translateXXValue})`;
 
         return {
             transform,
@@ -152,7 +158,7 @@ export default class Zlide extends Component {
 
         return (
             <ul className={className}
-                style={this.getStyle(calcSlideWidth, offset)}>
+                style={this.getStyle(calcSlideWidth, visibleSlides, offset)}>
                 {this.renderSlides(slides, pos, calcSlideWidth, offset)}
             </ul>
         );
